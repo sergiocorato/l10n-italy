@@ -1,13 +1,8 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
 #    Copyright (C) 2011
 #    Associazione OpenERP Italia (<http://www.openerp-italia.org>)
-#    Copyright (C) 2012-2014 Agile Business Group sagl
-#    (<http://www.agilebg.com>)
-#    Copyright (C) 2012 Domsense srl (<http://www.domsense.com>)
-#    Copyright (C) 2015 SimplERP srl (<http://www.simplerp.it>)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -24,19 +19,4 @@
 #
 ##############################################################################
 
-{
-    "name": "Italy - Partially Deductible VAT",
-    "version": "4.0.0.0",
-    "depends": ['account'],
-    "author": """OpenERP Italian Community,Odoo Community Association (OCA),
-SimplERP srl""",
-    "license": "AGPL-3",
-    "category": "Localisation/Italy",
-    'website': 'http://www.simplerp.it',
-    'test': [
-        'test/account_tax.xml',
-        'test/tax_computation.yml',
-    ],
-    'installable': True,
-    'active': False,
-}
+from . import account
