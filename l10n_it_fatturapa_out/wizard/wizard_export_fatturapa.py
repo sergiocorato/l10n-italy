@@ -775,6 +775,8 @@ class WizardExportFatturapa(orm.TransientModel):
             for invoice_id in invoice_ids:
                 inv = invoice_obj.browse(
                     cr, uid, invoice_id, context=context_partner)
+                context.update({
+                    'fiscalyear_id': inv.period_id.fiscalyear_id.id})
                 if inv.fatturapa_attachment_out_id:
                     raise orm.except_orm(
                         _("Error"),
