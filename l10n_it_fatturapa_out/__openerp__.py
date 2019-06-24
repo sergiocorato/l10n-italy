@@ -6,8 +6,8 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 {
-    'name': 'Italian Localization - Fattura elettronica - Emissione',
-    'version': '8.0.3.3.2',
+    'name': 'Italian Localization - Fattura Elettronica - Emission',
+    'version': '8.0.3.4.0',
     'category': 'Localization/Italy',
     'summary': 'Electronic invoices emission',
     'author': 'Davide Corio, Agile Business Group, Innoviu,'
