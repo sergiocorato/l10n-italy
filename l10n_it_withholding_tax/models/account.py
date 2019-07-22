@@ -210,14 +210,13 @@ class account_invoice(models.Model):
             use_wt = True
         self.withholding_tax = use_wt
 
-    @api.v7
-    def invoice_pay_customer(self, cr, uid, ids, context=None):
-        res = super(account_invoice, self).invoice_pay_customer(
-            cr, uid, ids, context)
+    @api.multi
+    def invoice_pay_customer(self):
+        self.ensure_one()
+        res = super(account_invoice, self).invoice_pay_customer()
 
-        inv = self.browse(cr, uid, ids[0], context=context)
-        if inv.withholding_tax_amount:
-            res['context'].update({'default_amount': inv.amount_net_pay})
+        if self.withholding_tax_amount:
+            res['context'].update({'default_amount': self.amount_net_pay})
         return res
 
     @api.multi
