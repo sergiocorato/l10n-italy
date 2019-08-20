@@ -8,6 +8,9 @@ class TestFatturaPAXMLValidation(FatturapaCommon):
 
     def setUp(self):
         super(TestFatturaPAXMLValidation, self).setUp()
+        dp_product_price = self.env['decimal.precision'].search(
+            [('name', '=', 'Product Price')], limit=1)
+        dp_product_price.write({'digits': 5})
 
     def test_00_xml_import(self):
         self.env.user.company_id.cassa_previdenziale_product_id = (
@@ -463,6 +466,28 @@ class TestFatturaPAXMLValidation(FatturapaCommon):
         self.assertAlmostEqual(invoice.e_invoice_amount_untaxed, 34.32)
         self.assertEqual(invoice.e_invoice_amount_tax, 0.0)
         self.assertEqual(invoice.e_invoice_amount_total, 34.32)
+
+    def test_26_xml_import(self):
+        res = self.run_wizard('test26', 'IT01234567890_FPR05.xml')
+        invoice_id = res.get('domain')[0][2][0]
+        invoice = self.invoice_model.browse(invoice_id)
+        self.assertEqual(
+            invoice.inconsistencies,
+            'removed timezone information from date only element '
+            '/ns2:FatturaElettronica/FatturaElettronicaBody/DatiPagamento/'
+            'DettaglioPagamento/DataScadenzaPagamento: 2019-06-13\n\nComputed'
+            ' amount untaxed 64.02 is different from summary data 64.0029')
+        self.assertEqual(invoice.invoice_line_ids[2].price_unit, 1.8033)
+        self.assertEqual(invoice.invoice_line_ids[2].price_subtotal, 3.61)
+
+    def test_27_xml_import(self):
+        res = self.run_wizard('test27', 'IT01234567890_FPR06.xml')
+        invoice_id = res.get('domain')[0][2][0]
+        invoice = self.invoice_model.browse(invoice_id)
+        self.assertEqual(
+            invoice.inconsistencies,
+            'Computed amount untaxed 8.8 is different from summary data 8.81')
+        self.assertEqual(invoice.invoice_line_ids[2].price_unit, -0.66)
 
     def test_01_xml_link(self):
         """
