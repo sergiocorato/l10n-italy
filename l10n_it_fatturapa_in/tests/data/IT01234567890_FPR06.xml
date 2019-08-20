@@ -1,0 +1,102 @@
+<ns2:FatturaElettronica xmlns:ns2="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2" versione="FPR12">
+   <FatturaElettronicaHeader>
+      <DatiTrasmissione>
+         <IdTrasmittente>
+            <IdPaese>IT</IdPaese>
+            <IdCodice>08973230967</IdCodice>
+         </IdTrasmittente>
+         <ProgressivoInvio>00031</ProgressivoInvio>
+         <FormatoTrasmissione>FPR12</FormatoTrasmissione>
+         <CodiceDestinatario>0000000</CodiceDestinatario>
+         <PECDestinatario>me@legalmail.it</PECDestinatario>
+      </DatiTrasmissione>
+      <CedentePrestatore>
+         <DatiAnagrafici>
+            <IdFiscaleIVA>
+               <IdPaese>IT</IdPaese>
+               <IdCodice>02780790107</IdCodice>
+            </IdFiscaleIVA>
+            <Anagrafica>
+               <Denominazione>SOCIETA' ALPHA SRL</Denominazione>
+            </Anagrafica>
+            <RegimeFiscale>RF01</RegimeFiscale>
+         </DatiAnagrafici>
+         <Sede>
+            <Indirizzo>4 AVENUE OBAMA</Indirizzo>
+            <CAP>01855</CAP>
+            <Comune>Luxembourg City</Comune>
+            <Nazione>LU</Nazione>
+         </Sede>
+         <StabileOrganizzazione>
+            <Indirizzo>Viale Cima Totti 4</Indirizzo>
+            <CAP>20124</CAP>
+            <Comune>Milano</Comune>
+            <Provincia>MI</Provincia>
+            <Nazione>IT</Nazione>
+         </StabileOrganizzazione>
+         <IscrizioneREA>
+            <Ufficio>MI</Ufficio>
+            <NumeroREA>08973230967</NumeroREA>
+            <StatoLiquidazione>LN</StatoLiquidazione>
+         </IscrizioneREA>
+      </CedentePrestatore>
+      <CessionarioCommittente>
+         <DatiAnagrafici>
+            <IdFiscaleIVA>
+               <IdPaese>IT</IdPaese>
+               <IdCodice>03533590174</IdCodice>
+            </IdFiscaleIVA>
+            <Anagrafica>
+               <Denominazione>BETA GAMMA</Denominazione>
+            </Anagrafica>
+         </DatiAnagrafici>
+         <Sede>
+            <Indirizzo>VIA TORINO 38-B</Indirizzo>
+            <CAP>00145</CAP>
+            <Comune>ROMA</Comune>
+            <Nazione>IT</Nazione>
+         </Sede>
+      </CessionarioCommittente>
+   </FatturaElettronicaHeader>
+   <FatturaElettronicaBody>
+      <DatiGenerali>
+         <DatiGeneraliDocumento>
+            <TipoDocumento>TD01</TipoDocumento>
+            <Divisa>EUR</Divisa>
+            <Data>2019-08-03</Data>
+            <Numero>EINIT19-7777</Numero>
+            <ImportoTotaleDocumento>11.56</ImportoTotaleDocumento>
+         </DatiGeneraliDocumento>
+         <FatturaPrincipale>
+            <NumeroFatturaPrincipale>EINIT19-7777</NumeroFatturaPrincipale>
+            <DataFatturaPrincipale>2019-08-03</DataFatturaPrincipale>
+         </FatturaPrincipale>
+      </DatiGenerali>
+      <DatiBeniServizi>
+         <DettaglioLinee>
+            <NumeroLinea>1</NumeroLinea>
+            <Descrizione>AWS Data Transfer</Descrizione>
+            <DataInizioPeriodo>2019-07-01</DataInizioPeriodo>
+            <DataFinePeriodo>2019-07-31</DataFinePeriodo>
+            <PrezzoUnitario>0.23</PrezzoUnitario>
+            <PrezzoTotale>0.23</PrezzoTotale>
+            <AliquotaIVA>22.00</AliquotaIVA>
+         </DettaglioLinee>
+         <DettaglioLinee>
+            <NumeroLinea>2</NumeroLinea>
+            <Descrizione>Amazon Elastic Compute Cloud</Descrizione>
+            <DataInizioPeriodo>2019-07-01</DataInizioPeriodo>
+            <DataFinePeriodo>2019-07-31</DataFinePeriodo>
+            <PrezzoUnitario>9.23</PrezzoUnitario>
+            <PrezzoTotale>9.23</PrezzoTotale>
+            <AliquotaIVA>22.00</AliquotaIVA>
+         </DettaglioLinee>
+         <DatiRiepilogo>
+            <AliquotaIVA>22.00</AliquotaIVA>
+            <Arrotondamento>-0.66</Arrotondamento>
+            <ImponibileImporto>9.47</ImponibileImporto>
+            <Imposta>2.09</Imposta>
+         </DatiRiepilogo>
+      </DatiBeniServizi>
+   </FatturaElettronicaBody>
+</ns2:FatturaElettronica>
