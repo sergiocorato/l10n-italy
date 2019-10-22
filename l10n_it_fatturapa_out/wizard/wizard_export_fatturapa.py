@@ -62,6 +62,11 @@ class WizardExportFatturapa(models.TransientModel):
     _name = "wizard.export.fatturapa"
     _description = "Export E-invoice"
 
+    @staticmethod
+    def encode_latin(string_to_encode):
+        res = string_to_encode.encode('latin', 'ignore').decode('latin')
+        return res
+
     @api.model
     def _domain_ir_values(self):
         """Get all print actions for current model"""
@@ -247,12 +252,13 @@ class WizardExportFatturapa(models.TransientModel):
         # TODO: manage address number in <NumeroCivico>
         # see https://github.com/OCA/partner-contact/pull/96
         CedentePrestatore.Sede = IndirizzoType(
-            Indirizzo=company.street,
+            Indirizzo=self.encode_latin(company.street),
             CAP=company.zip,
-            Comune=company.city,
+            Comune=self.encode_latin(company.city),
             Nazione=company.country_id.code)
         if company.partner_id.state_id:
-            CedentePrestatore.Sede.Provincia = company.partner_id.state_id.code
+            CedentePrestatore.Sede.Provincia = self.encode_latin(
+                company.partner_id.state_id.code)
 
         return True
 
@@ -364,15 +370,15 @@ class WizardExportFatturapa(models.TransientModel):
         if partner.is_company:
             fatturapa.FatturaElettronicaHeader.CessionarioCommittente. \
                 DatiAnagrafici.Anagrafica = AnagraficaType(
-                    Denominazione=partner.name)
+                    Denominazione=self.encode_latin(partner.name))
         else:
             if not partner.lastname or not partner.firstname:
                 raise UserError(
                     _("Partner %s deve avere nome e cognome") % partner.name)
             fatturapa.FatturaElettronicaHeader.CessionarioCommittente. \
                 DatiAnagrafici.Anagrafica = AnagraficaType(
-                    Cognome=partner.lastname,
-                    Nome=partner.firstname)
+                    Cognome=self.encode_latin(partner.lastname),
+                    Nome=self.encode_latin(partner.firstname))
 
         if partner.eori_code:
             fatturapa.FatturaElettronicaHeader.CessionarioCommittente. \
@@ -397,7 +403,7 @@ class WizardExportFatturapa(models.TransientModel):
                     IdPaese=partner.vat[0:2], IdCodice=partner.vat[2:])
         fatturapa.FatturaElettronicaHeader.RappresentanteFiscale. \
             DatiAnagrafici.Anagrafica = AnagraficaType(
-                Denominazione=partner.name)
+                Denominazione=self.encode_latin(partner.name))
         if partner.eori_code:
             fatturapa.FatturaElettronicaHeader.RappresentanteFiscale. \
                 DatiAnagrafici.Anagrafica.CodEORI = partner.eori_code
@@ -413,7 +419,7 @@ class WizardExportFatturapa(models.TransientModel):
             DatiAnagrafici = DatiAnagraficiTerzoIntermediarioType()
         if not partner.vat and not partner.fiscalcode:
             raise UserError(
-                _('Partner VAT and Fiscalcode not set.'))
+                _('Partner VAT and Fiscalcode not set for %s.' % partner.name))
         if partner.fiscalcode:
             fatturapa.FatturaElettronicaHeader. \
                 TerzoIntermediarioOSoggettoEmittente. \
@@ -439,32 +445,32 @@ class WizardExportFatturapa(models.TransientModel):
 
         if not partner.street:
             raise UserError(
-                _('Customer street not set.'))
+                _('Customer street not set for %s.' % partner.name))
         if not partner.city:
             raise UserError(
-                _('Customer city not set.'))
+                _('Customer city not set for %s.' % partner.name))
         if not partner.country_id:
             raise UserError(
-                _('Customer country not set.'))
+                _('Customer country not set for %s.' % partner.name))
 
         # TODO: manage address number in <NumeroCivico>
         if partner.codice_destinatario == 'XXXXXXX':
             fatturapa.FatturaElettronicaHeader.CessionarioCommittente.Sede = (
                 IndirizzoType(
-                    Indirizzo=partner.street,
+                    Indirizzo=self.encode_latin(partner.street),
                     CAP='00000',
-                    Comune=partner.city,
+                    Comune=self.encode_latin(partner.city),
                     Provincia='EE',
                     Nazione=partner.country_id.code))
         else:
             if not partner.zip:
                 raise UserError(
-                    _('Customer ZIP not set.'))
+                    _('Customer ZIP not set for %s.' % partner.name))
             fatturapa.FatturaElettronicaHeader.CessionarioCommittente.Sede = (
                 IndirizzoType(
-                    Indirizzo=partner.street,
+                    Indirizzo=self.encode_latin(partner.street),
                     CAP=partner.zip,
-                    Comune=partner.city,
+                    Comune=self.encode_latin(partner.city),
                     Nazione=partner.country_id.code))
             if partner.state_id:
                 fatturapa.FatturaElettronicaHeader.CessionarioCommittente.\
@@ -498,7 +504,7 @@ class WizardExportFatturapa(models.TransientModel):
         body.DatiGenerali = DatiGeneraliType()
         if not invoice.number:
             raise UserError(
-                _('Invoice does not have a number.'))
+                _('Invoice %s does not have a number.' % invoice.display_name))
 
         TipoDocumento = invoice.fiscal_document_type_id.code
         if not TipoDocumento:
@@ -529,8 +535,7 @@ class WizardExportFatturapa(models.TransientModel):
                 for causale200 in causale_list_200:
                     # Remove non latin chars, but go back to unicode string,
                     # as expected by String200LatinType
-                    causale = causale200.encode(
-                        'latin', 'ignore').decode('latin')
+                    causale = self.encode_latin(causale200)
                     body.DatiGenerali.DatiGeneraliDocumento.Causale\
                         .append(causale)
 
@@ -632,8 +637,7 @@ class WizardExportFatturapa(models.TransientModel):
             # see https://tinyurl.com/ycem923t
             # and '&#10;' would not be correctly visualized anyway
             # (for example firefox replaces '&#10;' with space
-            Descrizione=line.name.replace('\n', ' ').encode(
-                'latin', 'ignore').decode('latin'),
+            Descrizione=self.encode_latin(line.name.replace('\n', ' ')),
             PrezzoUnitario=('%.' + str(
                 price_precision
             ) + 'f') % prezzo_unitario,
@@ -665,8 +669,8 @@ class WizardExportFatturapa(models.TransientModel):
                 CodiceArticolo = CodiceArticoloType(
                     CodiceTipo=self.env['ir.config_parameter'].sudo(
                     ).get_param('fatturapa.codicetipo.odoo', 'ODOO'),
-                    CodiceValore=line.product_id.default_code.encode(
-                        'latin', 'ignore').decode('latin')
+                    CodiceValore=self.encode_latin(
+                        line.product_id.default_code)
                 )
                 DettaglioLinea.CodiceArticolo.append(CodiceArticolo)
             if line.product_id.ean13:
@@ -700,8 +704,8 @@ class WizardExportFatturapa(models.TransientModel):
                 if not tax.law_reference:
                     raise UserError(
                         _("No 'law reference' field for tax %s") % tax.name)
-                riepilogo.RiferimentoNormativo = tax.law_reference.encode(
-                    'latin', 'ignore').decode('latin')
+                riepilogo.RiferimentoNormativo = self.encode_latin(
+                    tax.law_reference)
             if tax.payability:
                 riepilogo.EsigibilitaIVA = tax.payability
             # TODO
@@ -801,7 +805,8 @@ class WizardExportFatturapa(models.TransientModel):
                 partner = invoice.partner_id
             if invoice.partner_id != partner:
                 raise UserError(
-                    _('Invoices must belong to the same partner'))
+                    _('Invoices %s must belong to the same partner') %
+                    invoices.mapped('number'))
 
         return partner
 
