@@ -64,7 +64,7 @@ class WizardExportFatturapa(models.TransientModel):
 
     @staticmethod
     def encode_latin(string_to_encode):
-        res = string_to_encode.encode('latin', 'ignore').decode('latin')
+        res = string_to_encode.encode('latin', 'replace').decode('latin')
         return res
 
     @api.model
