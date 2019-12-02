@@ -63,7 +63,6 @@ class ComunicazioneDatiIva(models.Model):
     _description = 'Invoices data communication'
     _rec_name = 'identificativo'
 
-
     @api.model
     def _default_company(self):
         company_id = self._context.get(
@@ -1483,8 +1482,8 @@ class ComunicazioneDatiIva(models.Model):
                 x_2_2_2_4_sede,
                 etree.QName("NumeroCivico"))
             x_2_2_2_4_2_numero_civico.text = encode_for_export(
-                    partner_invoice.cessionario_sede_NumeroCivico or '', 8,
-                    encoding='ascii')
+                partner_invoice.cessionario_sede_NumeroCivico or '', 8,
+                encoding='ascii')
             # -----                 2.2.2.4.3 - CAP
             x_2_2_2_4_3_cap = etree.SubElement(
                 x_2_2_2_4_sede,
