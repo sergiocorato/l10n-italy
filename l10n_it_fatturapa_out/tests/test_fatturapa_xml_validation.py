@@ -403,8 +403,8 @@ class TestFatturaPAXMLValidation(FatturaPACommon):
         xml_content = attachment.datas.decode('base64')
         self.check_content(xml_content, 'IT06363391001_00009.xml')
 
-    def test_9a_xml_export(self):
-        self.set_sequences(10, 21, '2018')
+    def test_11_xml_export(self):
+        self.set_sequences(11, 21, '2018')
         self.product_product_10.default_code = 'GH82Ø23€ŦD11'
         self.product_order_01.default_code = 'GZD11'
         partner = self.res_partner_fatturapa_2
@@ -452,7 +452,7 @@ class TestFatturaPAXMLValidation(FatturaPACommon):
         invoice.signal_workflow('invoice_open')
         res = self.run_wizard(invoice.id)
         attachment = self.attach_model.browse(res['res_id'])
-        self.assertEqual(attachment.datas_fname, 'IT06363391001_00010.xml')
+        self.assertEqual(attachment.datas_fname, 'IT06363391001_00011.xml')
 
         xml_content = attachment.datas.decode('base64')
-        self.check_content(xml_content, 'IT06363391001_00010.xml')
+        self.check_content(xml_content, 'IT06363391001_00011.xml')
