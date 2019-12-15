@@ -28,7 +28,7 @@ class FatturaPAAttachmentIn(models.Model):
              "del cessionario / committente"
     )
     registered = fields.Boolean(
-        "Registered", compute="_compute_registered", store=True)
+        "Registered", compute="_compute_registered")
 
     @api.onchange('datas_fname')
     def onchagne_datas_fname(self):
