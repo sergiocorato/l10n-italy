@@ -127,11 +127,11 @@ class account_invoice(models.Model):
     withholding_tax_amount = fields.Float(
         compute='_amount_withholding_tax',
         digits=dp.get_precision('Account'), string='Withholding tax',
-        store=True, readonly=True)
+        readonly=True)
     amount_net_pay = fields.Float(
         compute='_amount_withholding_tax',
         digits_compute=dp.get_precision('Account'), string='Net To Pay',
-        store=True, readonly=True)
+        readonly=True)
 
     @api.multi
     def action_move_create(self):
