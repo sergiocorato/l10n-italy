@@ -990,7 +990,7 @@ class WizardExportFatturapa(models.TransientModel):
         else:
             # Otherwise, create a new attachment to be stored in
             # fatturapa_doc_attachments.
-            filename = inv.number
+            filename = '%s_%s.pdf' % (inv.partner_id.name, inv.number)
             data_attach = {
                 'name': filename,
                 'datas': base64.b64encode(res),
