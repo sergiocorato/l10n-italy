@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-##############################################################################
-# For copyright and license notices, see __openerp__.py file in root directory
-##############################################################################
-from openerp import models, fields, api
+from odoo import models, fields, api
 
 
 class RibaList(models.Model):
@@ -36,8 +32,7 @@ class RibaList(models.Model):
     def riba_accepted(self):
         self.ensure_one()
         super(RibaList, self).riba_accepted()
-        self.date_accepted = self.date_accepted or \
-            fields.Date.context_today(self)
+        self.date_accepted = self.date_accepted or fields.Date.context_today(self)
 
     @api.multi
     def riba_accredited(self):
