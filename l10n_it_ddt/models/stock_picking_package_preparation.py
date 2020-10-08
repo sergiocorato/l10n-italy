@@ -113,6 +113,7 @@ class StockPickingPackagePreparation(models.Model):
         string='Method of Transportation')
     carrier_id = fields.Many2one(
         'res.partner', string='Carrier')
+    carrier_tracking_ref = fields.Char(string='Tracking Reference', copy=False)
     # TODO align terms: parcels > packages
     parcels = fields.Integer('Packages')
     display_name = fields.Char(

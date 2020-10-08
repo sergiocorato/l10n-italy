@@ -26,6 +26,7 @@ class AccountInvoice(models.Model):
         string='Method of Transportation')
     carrier_id = fields.Many2one(
         'res.partner', string='Carrier')
+    carrier_tracking_ref = fields.Char(string='Tracking Reference', copy=False)
     parcels = fields.Integer('Parcels')
     weight = fields.Float(string="Weight")
     gross_weight = fields.Float(string="Gross Weight")
