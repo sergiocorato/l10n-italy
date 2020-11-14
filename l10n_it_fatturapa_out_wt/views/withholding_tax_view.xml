@@ -9,12 +9,6 @@
             <field name="arch" type="xml">
                 <field name="payment_term" position="after">
                     <field name="welfare_fund_type_id"/>
-                    <field name="wt_types" widget='radio'/>
-                </field>
-                <field name="causale_pagamento_id" position="attributes">
-                    <attribute name="attrs">
-                        {'invisible': [('wt_types', '!=', 'ritenuta')]}
-                    </attribute>
                 </field>
             </field>
         </record>
