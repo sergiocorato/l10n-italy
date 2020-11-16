@@ -116,9 +116,8 @@ class WithholdingTax(models.Model):
                 self.env.context['currency_id'])
         else:
             currency = self.env.user.company_id.currency_id
-        prec = 2  # currency.accuracy
-        base = round(amount * self.base, prec)
-        tax = round(base * ((self.tax or 0.0) / 100.0), prec)
+        base = currency.round(amount * self.base)
+        tax = currency.round(base * ((self.tax or 0.0) / 100.0))
         res['base'] = base
         res['tax'] = tax
 
