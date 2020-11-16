@@ -102,7 +102,7 @@ class TestInvoiceWT(FatturaPACommon):
                 }),
             ],
         })
-        # invoice._onchange_invoice_line_wt_ids()
+        invoice._onchange_invoice_line_wt_ids()
         invoice.signal_workflow('invoice_open')
         res = self.run_wizard(invoice.id)
 
@@ -141,7 +141,7 @@ class TestInvoiceWT(FatturaPACommon):
                 }),
             ],
         })
-        # invoice._onchange_invoice_line_wt_ids
+        invoice._onchange_invoice_line_wt_ids()
         invoice.signal_workflow('invoice_open')
         res = self.run_wizard(invoice.id)
 
@@ -185,7 +185,7 @@ class TestInvoiceWT(FatturaPACommon):
                 }),
             ],
         })
-        # invoice._onchange_invoice_line_wt_ids
+        invoice._onchange_invoice_line_wt_ids()
         invoice.signal_workflow('invoice_open')
         res = self.run_wizard(invoice.id)
 
@@ -230,7 +230,7 @@ class TestInvoiceWT(FatturaPACommon):
                 }),
             ],
         })
-        # invoice._onchange_invoice_line_wt_ids
+        invoice._onchange_invoice_line_wt_ids()
         invoice.signal_workflow('invoice_open')
         res = self.run_wizard(invoice.id)
 
@@ -269,7 +269,7 @@ class TestInvoiceWT(FatturaPACommon):
                 }),
             ],
         })
-        # invoice._onchange_invoice_line_wt_ids
+        invoice._onchange_invoice_line_wt_ids()
         invoice.signal_workflow('invoice_open')
         res = self.run_wizard(invoice.id)
 
@@ -313,7 +313,7 @@ class TestInvoiceWT(FatturaPACommon):
                 }),
             ],
         })
-        # invoice._onchange_invoice_line_wt_ids
+        invoice._onchange_invoice_line_wt_ids()
         invoice.signal_workflow('invoice_open')
         res = self.run_wizard(invoice.id)
 
@@ -358,7 +358,7 @@ class TestInvoiceWT(FatturaPACommon):
                 }),
             ],
         })
-        # invoice._onchange_invoice_line_wt_ids
+        invoice._onchange_invoice_line_wt_ids()
         invoice.signal_workflow('invoice_open')
         res = self.run_wizard(invoice.id)
 

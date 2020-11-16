@@ -76,6 +76,7 @@ class TestWithholdingTax(TransactionCase):
             'name': 'Enasarco',
             'certification': True,
             'code': 'ENA',
+            'wt_types': 'enasarco',
             'journal_id': self.journal_misc.id,
             'account_receivable_id': self.wt_account_rec_enasarco.id,
             'account_payable_id': self.wt_account_payable_enasarco.id,
