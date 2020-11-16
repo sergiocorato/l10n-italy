@@ -36,8 +36,7 @@ class TestInvoiceWT(FatturaPACommon):
             'certification': True,
             'account_receivable_id': self.wt_account_receivable.id,
             'account_payable_id': self.wt_account_payable.id,
-            # TODO MOMENTANEAMENTE SOSPESA IN ATTESA DI VERIFICA
-            # 'journal_id': self.journal_misc.id,
+            'journal_id': self.journal_misc.id,
             'payment_term': self.payment_term_15.id,
             'causale_pagamento_id': self.env.ref(
                 'l10n_it_causali_pagamento.a').id,
@@ -138,11 +137,10 @@ class TestInvoiceWT(FatturaPACommon):
                     'uos_id': self.product_uom_unit.id,
                     'price_unit': 10,
                     'invoice_line_tax_id': [(6, 0, [self.tax_22.id])],
-                    # TODO MOMENTANEAMENTE SOSPESA IN ATTESA DI VERIFICA
-                    # 'invoice_line_tax_wt_ids': [(6, 0, [
-                    #     self.wt1040.id,
-                    #     self.enasarco.id,
-                    # ])]
+                    'invoice_line_tax_wt_ids': [(6, 0, [
+                        self.wt1040.id,
+                        self.enasarco.id,
+                    ])]
                 }),
             ],
         })

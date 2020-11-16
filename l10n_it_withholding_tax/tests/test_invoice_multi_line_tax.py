@@ -63,16 +63,20 @@ class TestWithholdingTax(TransactionCase):
         wt_vals = {
             'name': 'Provision',
             'certification': True,
+            'code': 'PROV',
+            'journal_id': self.journal_misc.id,
             'account_receivable_id': self.wt_account_receivable.id,
             'account_payable_id': self.wt_account_payable.id,
             'payment_term': self.payment_term_15.id,
             'rate_ids': [(0, 0, {'tax': 23, 'base': 0.2})]
             }
-        self.provision = self.env['withholding.tax'].create(wt_vals)
+        self.wt1040 = self.env['withholding.tax'].create(wt_vals)
         # Enasarco tax
         ena_vals = {
             'name': 'Enasarco',
             'certification': True,
+            'code': 'ENA',
+            'journal_id': self.journal_misc.id,
             'account_receivable_id': self.wt_account_rec_enasarco.id,
             'account_payable_id': self.wt_account_payable_enasarco.id,
             'payment_term': self.payment_term_15.id,
@@ -82,7 +86,7 @@ class TestWithholdingTax(TransactionCase):
 
         self.fp = self.env['account.fiscal.position'].create({
             'name': 'Italy wt 23% on 20% Enasarco 1%',
-            'withholding_tax_ids': [(6, 0, [self.ena.id, self.provision.id])],
+            'withholding_tax_ids': [(6, 0, [self.ena.id, self.wt1040.id])],
         })
         # Customer Invoice with WT
         invoice_line_vals = [
@@ -94,7 +98,8 @@ class TestWithholdingTax(TransactionCase):
                     limit=1).id,
                 'name': 'Provvision',
                 'price_unit': 1000.00,
-                'invoice_line_tax_id': [(6, 0, [self.tax22.id])]
+                'invoice_line_tax_id': [(6, 0, [self.tax22.id])],
+                'invoice_line_tax_wt_ids': [(6, 0, [self.wt1040.id, self.ena.id])],
                 })]
         self.invoice = self.env['account.invoice'].create({
             'name': "Test Customer Invoice WT",
@@ -110,7 +115,7 @@ class TestWithholdingTax(TransactionCase):
             'fiscal_position': self.fp.id,
             'withholding_tax': True,
         })
-        self.invoice.button_reset_taxes()
+        self.invoice._onchange_invoice_line_wt_ids()
         self.invoice.signal_workflow('invoice_open')
 
     def test_10_withholding_tax(self):
@@ -128,7 +133,7 @@ class TestWithholdingTax(TransactionCase):
             self.invoice.amount_net_pay, 1164, msg='Invoice WT amount net pay')
 
         domain = [('invoice_id', '=', self.invoice.id),
-                  ('withholding_tax_id', '=', self.provision.id)]
+                  ('withholding_tax_id', '=', self.wt1040.id)]
         wt_statement = self.env['withholding.tax.statement'].search(domain)
         self.assertEqual(
             len(wt_statement), 1, msg='WT statement was not created')
@@ -173,7 +178,7 @@ class TestWithholdingTax(TransactionCase):
 
         # WT amount applied in statement
         domain = [('invoice_id', '=', self.invoice.id),
-                  ('withholding_tax_id', '=', self.provision.id)]
+                  ('withholding_tax_id', '=', self.wt1040.id)]
         wt_statement = self.env['withholding.tax.statement'].search(domain)
         self.assertEqual(wt_statement.base, 200)
         self.assertEqual(wt_statement.tax, 46)
@@ -224,7 +229,7 @@ class TestWithholdingTax(TransactionCase):
 
         # WT amount applied in statement
         domain = [('invoice_id', '=', self.invoice.id),
-                  ('withholding_tax_id', '=', self.provision.id)]
+                  ('withholding_tax_id', '=', self.wt1040.id)]
         wt_statement = self.env['withholding.tax.statement'].search(domain)
         self.assertEqual(wt_statement.base, 200)
         self.assertEqual(wt_statement.move_ids[0].amount, 23)
