@@ -176,6 +176,7 @@
                                 <field name="transportation_method_id"
                                        attrs="{'required':[('ddt_type_id', '!=', False)]}"/>
                                 <field name="carrier_id"/>
+                                <field name="carrier_tracking_ref" />
                             </group>
                         </group>
                     </page>

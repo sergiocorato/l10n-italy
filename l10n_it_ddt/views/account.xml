@@ -20,6 +20,7 @@
                             <field name="transportation_method_id"
                                 widget="selection"/>
                             <field name="carrier_id" />
+                            <field name="carrier_tracking_ref" />
                             <field name="parcels" />
                             <field name="weight" />
                             <field name="gross_weight" />
